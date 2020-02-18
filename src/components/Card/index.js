@@ -25,7 +25,7 @@ export default function ImgMediaCard() {
           component="img"
           alt="Contemplative Reptile"
           height="140"
-          //   image=""
+          image="https://www.karostore.com/image/cache/catalog/product-6167/rub2ShxUXy-RLK7381_L-850x850.jpg"
           title="Contemplative Reptile"
         />
         <CardContent>
