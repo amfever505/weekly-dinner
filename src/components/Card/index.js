@@ -12,10 +12,14 @@ import Typography from '@material-ui/core/Typography';
 const useStyles = makeStyles({
   root: {
     maxWidth: 345
+  },
+  contentRoot: {
+    height: 100
   }
 });
 
-export default function ImgMediaCard() {
+export default function ImgMediaCard({ day, content }) {
+  //設定day content 可以從外面傳資料進來
   const classes = useStyles();
 
   return (
@@ -28,13 +32,13 @@ export default function ImgMediaCard() {
           image="https://www.karostore.com/image/cache/catalog/product-6167/rub2ShxUXy-RLK7381_L-850x850.jpg"
           title="Contemplative Reptile"
         />
-        <CardContent>
+        {/* 設定className裡的樣式（用object的方式）寫固定高度 */}
+        <CardContent className={classes.contentRoot}>
           <Typography gutterBottom variant="h5" component="h2">
-            Lizard
+            {day}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000
-            species, ranging across all continents except Antarctica
+            {content}
           </Typography>
         </CardContent>
       </CardActionArea>
