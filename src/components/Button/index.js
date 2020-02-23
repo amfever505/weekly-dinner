@@ -2,9 +2,9 @@ import React from 'react';
 
 import Button from '@material-ui/core/Button';
 
-const CustomizedButton = ({ ...props }) => (
+const CustomizedButton = ({ content, ...props }) => (
   <Button variant="outlined" size="large" style={{ width: 300 }} {...props}>
-    熊熊
+    {content}
   </Button>
 );
 
