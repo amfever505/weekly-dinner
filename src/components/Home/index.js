@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 
 import Section from '../Section';
 import Grid from '@material-ui/core/Grid';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+import RestaurantIcon from '@material-ui/icons/Restaurant';
 
 import Card from '../Card';
 import Button from '../Button';
@@ -41,9 +43,21 @@ function Home() {
               justifyContent: 'center'
             }}
           >
-            <Button content="食事を追加" onClick={handleOpenDialog} />
+            <Button
+              content="食事を追加"
+              color="secondary"
+              size="large"
+              endIcon={<PlaylistAddIcon />}
+              onClick={handleOpenDialog}
+            />
             {/* 用onClick呼叫setTest去改變內容 */}
-            <Button content="熊熊" onClick={() => setTest('hi')} />
+            <Button
+              content="熊熊"
+              color="secondary"
+              size="large"
+              endIcon={<RestaurantIcon />}
+              onClick={() => setTest('hi')}
+            />
             <Dialog open={open} handleCloseDialog={handleCloseDialog} />
           </div>
         </Section>
