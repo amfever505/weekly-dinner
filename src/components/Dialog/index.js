@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -8,7 +8,20 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
+import { addMenuToFirebase } from '../../firebase/api';
+
 export default function FormDialog({ open, handleCloseDialog }) {
+  const [menuName, setMenuName] = useState('');
+
+  const handleInput = e => {
+    setMenuName(e.target.value);
+  };
+
+  const handleAddMenu = () => {
+    addMenuToFirebase(menuName);
+    handleCloseDialog();
+  };
+
   return (
     <div>
       <Dialog
@@ -28,13 +41,14 @@ export default function FormDialog({ open, handleCloseDialog }) {
             label="食事　例：オムライス"
             type="email"
             fullWidth
+            onChange={handleInput}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
             やめる
           </Button>
-          <Button onClick={handleCloseDialog} color="primary">
+          <Button onClick={handleAddMenu} color="primary">
             追加する
           </Button>
         </DialogActions>

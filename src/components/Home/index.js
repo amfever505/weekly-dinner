@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Section from '../Section';
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +9,7 @@ import Card from '../Card';
 import Button from '../Button';
 import Dialog from '../Dialog';
 import { WEEK_DAYS } from '../../constants';
+import MenuList from '../MenuList';
 
 function Home() {
   //用useState來寫網頁原始值（什麼都沒有的狀態）再用setVar的方式改變內容
@@ -34,32 +35,38 @@ function Home() {
       </Grid>
       <Grid item>
         <Section height={400} variant="outlined">
-          <div
-            style={{
-              height: '100%',
-              width: '100%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-          >
-            <Button
-              content="食事を追加"
-              color="secondary"
-              size="large"
-              endIcon={<PlaylistAddIcon />}
-              onClick={handleOpenDialog}
-            />
-            {/* 用onClick呼叫setTest去改變內容 */}
-            <Button
-              content="熊熊"
-              color="secondary"
-              size="large"
-              endIcon={<RestaurantIcon />}
-              onClick={() => setTest('hi')}
-            />
-            <Dialog open={open} handleCloseDialog={handleCloseDialog} />
-          </div>
+          <Grid container>
+            <Grid item xs={6}>
+              <MenuList />
+            </Grid>
+            <Grid item xs={6}>
+              <div
+                style={{
+                  height: '100%',
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Button
+                  content="食事を追加"
+                  color="secondary"
+                  size="large"
+                  endIcon={<PlaylistAddIcon />}
+                  onClick={handleOpenDialog}
+                />
+                {/* 用onClick呼叫setTest去改變內容 */}
+                <Button
+                  content="熊熊"
+                  color="secondary"
+                  size="large"
+                  endIcon={<RestaurantIcon />}
+                />
+                <Dialog open={open} handleCloseDialog={handleCloseDialog} />
+              </div>
+            </Grid>
+          </Grid>
         </Section>
       </Grid>
     </Grid>
