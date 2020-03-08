@@ -5,8 +5,11 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Progress from '@material-ui/core/CircularProgress';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-import { menuRef } from '../../firebase/api';
+import { menuRef, removeMenuFromFirebase } from '../../firebase/api';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -24,9 +27,13 @@ export default function MenuList() {
   // equals react componenDidMount()
   useEffect(() => {
     menuRef.on('value', snapshot => {
-      setMenuList(Object.values(snapshot.val()));
+      setMenuList(snapshot.val() ? Object.values(snapshot.val()) : []);
     });
   }, []);
+
+  const handleDeleteMenu = key => {
+    removeMenuFromFirebase(key);
+  };
 
   return (
     <div className={classes.root}>
@@ -51,8 +58,13 @@ export default function MenuList() {
           }}
         >
           {menuList.map(m => (
-            <ListItem button>
+            <ListItem key={m.key} button>
               <ListItemText primary={m.name} />
+              <ListItemSecondaryAction>
+                <IconButton edge="end" aria-label="delete" onClick={() => handleDeleteMenu(m.key)}>
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>
