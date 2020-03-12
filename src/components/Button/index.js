@@ -3,7 +3,11 @@ import React from 'react';
 import Button from '@material-ui/core/Button';
 
 const CustomizedButton = ({ content, ...props }) => (
-  <Button variant="contained" style={{ width: 300, margin: 8 }} {...props}>
+  <Button
+    variant="contained"
+    style={{ paddingRight: 36, paddingLeft: 36, lineHeight: 2, margin: 16 }}
+    {...props}
+  >
     {content}
   </Button>
 );

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import Progress from '@material-ui/core/CircularProgress';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
 
-import { menuRef } from '../../firebase/api';
+import { removeMenuFromFirebase } from '../../firebase/api';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,16 +20,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function MenuList() {
-  const [menuList, setMenuList] = useState([]);
+export default function MenuList(props) {
+  const { menuList } = props;
   const classes = useStyles();
 
-  // equals react componenDidMount()
-  useEffect(() => {
-    menuRef.on('value', snapshot => {
-      setMenuList(Object.values(snapshot.val()));
-    });
-  }, []);
+  const handleDeleteMenu = key => {
+    removeMenuFromFirebase(key);
+  };
 
   return (
     <div className={classes.root}>
@@ -41,18 +41,32 @@ export default function MenuList() {
       ) : (
         <List
           subheader={
-            <ListSubheader component="div" id="nested-list-subheader">
-              熊熊メニュー
+            <ListSubheader
+              component="div"
+              id="nested-list-subheader"
+              style={{ color: '#333333' }}
+            >
+              メニューリスト
             </ListSubheader>
           }
           style={{
+            color: 'gray',
             maxHeight: 360,
             overflowY: 'auto'
           }}
         >
           {menuList.map(m => (
-            <ListItem button>
-              <ListItemText primary={m.name} />
+            <ListItem key={m.key} button>
+              <ListItemText primary={m.name} style={{ color: '#210203' }} />
+              <ListItemSecondaryAction>
+                <IconButton
+                  edge="end"
+                  aria-label="delete"
+                  onClick={() => handleDeleteMenu(m.key)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
             </ListItem>
           ))}
         </List>

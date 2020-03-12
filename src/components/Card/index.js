@@ -37,17 +37,17 @@ export default function ImgMediaCard({ day, content }) {
           <Typography gutterBottom variant="h5" component="h2">
             {day}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
+          <Typography variant="h6" color="primary" component="h3">
             {content}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
         <Button size="small" color="primary">
-          Share
+          シェア
         </Button>
         <Button size="small" color="primary">
-          Learn More
+          もっと見る
         </Button>
       </CardActions>
     </Card>
