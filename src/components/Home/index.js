@@ -9,6 +9,7 @@ import Card from '../Card';
 import Button from '../Button';
 import Dialog from '../Dialog';
 import { WEEK_DAYS } from '../../constants';
+import { DAYS_ICON } from '../../constants';
 import { menuRef } from '../../firebase/api';
 import MenuList from '../MenuList';
 
@@ -46,7 +47,11 @@ function Home() {
           <Grid container>
             {[1, 2, 3, 4, 5, 6, 7].map(n => (
               <Grid item style={{ width: '14.28%' }} wrap="nowrap">
-                <Card day={WEEK_DAYS[n]} content={test[n - 1]} />
+                <Card
+                  day={WEEK_DAYS[n]}
+                  content={test[n - 1]}
+                  daysimg={DAYS_ICON[n]}
+                />
               </Grid>
             ))}
           </Grid>
@@ -71,18 +76,32 @@ function Home() {
               >
                 <Button
                   content="食事を追加"
-                  color="secondary"
                   size="large"
                   endIcon={<PlaylistAddIcon />}
                   onClick={handleOpenDialog}
+                  style={{
+                    paddingRight: 36,
+                    paddingLeft: 36,
+                    lineHeight: 2,
+                    margin: 16,
+                    color: '#d675af',
+                    background: '#484848'
+                  }}
                 />
                 {/* 用onClick呼叫setTest去改變內容 */}
                 <Button
                   content="シャッフル！"
-                  color="secondary"
                   size="large"
                   endIcon={<RestaurantIcon />}
                   onClick={randomMenu}
+                  style={{
+                    paddingRight: 36,
+                    paddingLeft: 36,
+                    lineHeight: 2,
+                    margin: 16,
+                    color: '#d675af',
+                    background: '#484848'
+                  }}
                 />
                 <Dialog open={open} handleCloseDialog={handleCloseDialog} />
               </div>

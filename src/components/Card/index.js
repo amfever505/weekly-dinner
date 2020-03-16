@@ -18,7 +18,7 @@ const useStyles = makeStyles({
   }
 });
 
-export default function ImgMediaCard({ day, content }) {
+export default function ImgMediaCard({ day, content, daysimg, ...props }) {
   //設定day content 可以從外面傳資料進來
   const classes = useStyles();
 
@@ -29,24 +29,24 @@ export default function ImgMediaCard({ day, content }) {
           component="img"
           alt="Contemplative Reptile"
           height="140"
-          image="https://www.karostore.com/image/cache/catalog/product-6167/rub2ShxUXy-RLK7381_L-850x850.jpg"
+          image={daysimg}
           title="Contemplative Reptile"
         />
         {/* 設定className裡的樣式（用object的方式）寫固定高度 */}
         <CardContent className={classes.contentRoot}>
-          <Typography gutterBottom variant="h5" component="h2">
+          {/*<Typography gutterBottom variant="h5" component="h2">
             {day}
-          </Typography>
-          <Typography variant="h6" color="primary" component="h3">
+  </Typography>*/}
+          <Typography variant="h6" component="h3" style={{ color: '#484848' }}>
             {content}
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size="small" color="primary">
+        {/* <Button size="small" style={{ color: '#6D98BA' }}>
           シェア
-        </Button>
-        <Button size="small" color="primary">
+</Button>*/}
+        <Button size="small" style={{ color: '#6D98BA' }}>
           もっと見る
         </Button>
       </CardActions>
