@@ -15,6 +15,10 @@ const useStyles = makeStyles({
   },
   contentRoot: {
     height: 100
+  },
+  //用objectfit設定自適應大小
+  img: {
+    objectFit: 'contain'
   }
 });
 
@@ -30,7 +34,9 @@ export default function ImgMediaCard({ day, content, daysimg, ...props }) {
           alt="Contemplative Reptile"
           height="140"
           image={daysimg}
-          title="Contemplative Reptile"
+          title="Contempla tive Reptile"
+          classes={{ img: classes.img }}
+          //在這邊呼叫usestyle裡設定的objectfit
         />
         {/* 設定className裡的樣式（用object的方式）寫固定高度 */}
         <CardContent className={classes.contentRoot}>

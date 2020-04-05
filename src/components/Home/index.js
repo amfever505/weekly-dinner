@@ -4,13 +4,21 @@ import Section from '../Section';
 import Grid from '@material-ui/core/Grid';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import RestaurantIcon from '@material-ui/icons/Restaurant';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import Card from '../Card';
 import Button from '../Button';
 import Dialog from '../Dialog';
 import { WEEK_DAYS } from '../../constants';
 import { DAYS_ICON } from '../../constants';
-import { menuRef } from '../../firebase/api';
+import {
+  menuRef,
+  login,
+  checkLogin,
+  logout,
+  getUid,
+  getMenuList
+} from '../../firebase/api';
 import MenuList from '../MenuList';
 
 function Home() {
@@ -21,9 +29,17 @@ function Home() {
 
   // equals react componenDidMount()
   useEffect(() => {
-    menuRef.on('value', snapshot => {
-      //忘記這邊的snapshot.val是什麼了
-      setMenuList(snapshot.val() ? Object.values(snapshot.val()) : []);
+    checkLogin().subscribe(user => {
+      if (user) {
+        console.log('login success!', user);
+        getMenuList().subscribe(data => setMenuList(data));
+        // menuRef.child(getUid()).on('value', snapshot => {
+        //   //忘記這邊的snapshot.val是什麼了
+        //   setMenuList(snapshot.val() ? Object.values(snapshot.val()) : []);
+        // });
+      } else {
+        login();
+      }
     });
   }, []);
 
@@ -67,7 +83,7 @@ function Home() {
             <Grid item xs={6}>
               <div
                 style={{
-                  height: '100%',
+                  height: '75%',
                   width: '100%',
                   display: 'flex',
                   alignItems: 'center',
@@ -103,7 +119,32 @@ function Home() {
                     background: '#484848'
                   }}
                 />
+
                 <Dialog open={open} handleCloseDialog={handleCloseDialog} />
+              </div>
+              <div
+                style={{
+                  height: '25%',
+                  width: '100%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
+                <Button
+                  content="ログアウト"
+                  size="large"
+                  endIcon={<ExitToAppIcon />}
+                  onClick={logout}
+                  style={{
+                    paddingRight: 36,
+                    paddingLeft: 36,
+                    lineHeight: 2,
+                    margin: 16,
+                    color: '#fff',
+                    background: '#d675af'
+                  }}
+                />
               </div>
             </Grid>
           </Grid>

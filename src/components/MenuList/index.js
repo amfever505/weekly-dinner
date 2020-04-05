@@ -44,13 +44,15 @@ export default function MenuList(props) {
             <ListSubheader
               component="div"
               id="nested-list-subheader"
-              style={{ color: '#333333' }}
+              style={{
+                color: '#333333',
+                background: '#fff'
+              }}
             >
               メニューリスト
             </ListSubheader>
           }
           style={{
-            color: 'gray',
             maxHeight: 360,
             overflowY: 'auto'
           }}
