@@ -8,17 +8,10 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 import Card from '../Card';
 import Button from '../Button';
-import Dialog from '../Dialog';
-import { WEEK_DAYS } from '../../constants';
-import { DAYS_ICON } from '../../constants';
-import {
-  menuRef,
-  login,
-  checkLogin,
-  logout,
-  getUid,
-  getMenuList
-} from '../../firebase/api';
+import MenuEditDialog from '../Dialog';
+import { WEEK_DAYS, DAYS_ICON, innerH } from '../../constants';
+
+import { login, checkLogin, logout, getMenuList, getUid, menuRef } from '../../firebase/api';
 import MenuList from '../MenuList';
 
 function Home() {
@@ -29,14 +22,12 @@ function Home() {
 
   // equals react componenDidMount()
   useEffect(() => {
-    checkLogin().subscribe(user => {
+    checkLogin().subscribe((user) => {
       if (user) {
         console.log('login success!', user);
-        getMenuList().subscribe(data => setMenuList(data));
-        // menuRef.child(getUid()).on('value', snapshot => {
-        //   //忘記這邊的snapshot.val是什麼了
-        //   setMenuList(snapshot.val() ? Object.values(snapshot.val()) : []);
-        // });
+        getMenuList().subscribe((data) => {
+          setMenuList(data);
+        });
       } else {
         login();
       }
@@ -44,13 +35,12 @@ function Home() {
   }, []);
 
   const handleOpenDialog = () => setOpen(true);
-
   const handleCloseDialog = () => setOpen(false);
 
   const randomMenu = () => {
     const randomMenuName = menuList
-      .map(m => m.name)
-      .sort(function(a, b) {
+      .map((m) => m.name)
+      .sort(function (a, b) {
         return 0.5 - Math.random();
       });
     setTest(randomMenuName);
@@ -59,15 +49,11 @@ function Home() {
   return (
     <Grid container spacing={3} direction="column">
       <Grid item>
-        <Section>
+        <Section height={innerH / 2}>
           <Grid container>
-            {[1, 2, 3, 4, 5, 6, 7].map(n => (
+            {[1, 2, 3, 4, 5, 6, 7].map((n) => (
               <Grid item style={{ width: '14.28%' }} wrap="nowrap">
-                <Card
-                  day={WEEK_DAYS[n]}
-                  content={test[n - 1]}
-                  daysimg={DAYS_ICON[n]}
-                />
+                <Card day={WEEK_DAYS[n]} content={test[n - 1]} daysimg={DAYS_ICON[n]} />
               </Grid>
             ))}
           </Grid>
@@ -75,19 +61,22 @@ function Home() {
       </Grid>
 
       <Grid item>
-        <Section height={400} variant="outlined">
-          <Grid container>
-            <Grid item xs={6}>
+        <Section height={innerH * 0.4} variant="outlined">
+          <Grid container style={{ maxHeight: innerH * 0.4, overflow: 'hidden' }}>
+            <Grid xs={4}></Grid>
+            <Grid item xs={5}>
               <MenuList menuList={menuList} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={3}>
               <div
                 style={{
-                  height: '75%',
+                  height: '100%',
                   width: '100%',
                   display: 'flex',
+                  flexDirection: 'column',
+                  flexWrap: 'wrap',
                   alignItems: 'center',
-                  justifyContent: 'center'
+                  justifyContent: 'center',
                 }}
               >
                 <Button
@@ -101,9 +90,19 @@ function Home() {
                     lineHeight: 2,
                     margin: 16,
                     color: '#d675af',
-                    background: '#484848'
+                    background: '#484848',
                   }}
                 />
+                <MenuEditDialog
+                  title="食事を追加"
+                  content="ここで自分の食べたいものを追加して、一週間の食事リストを作りましょう！"
+                  label="食事　例：オムライス　など"
+                  nextButton="追加する"
+                  cancleButton="やめる"
+                  open={open}
+                  onClose={handleCloseDialog}
+                />
+
                 {/* 用onClick呼叫setTest去改變內容 */}
                 <Button
                   content="シャッフル！"
@@ -116,21 +115,10 @@ function Home() {
                     lineHeight: 2,
                     margin: 16,
                     color: '#d675af',
-                    background: '#484848'
+                    background: '#484848',
                   }}
                 />
 
-                <Dialog open={open} handleCloseDialog={handleCloseDialog} />
-              </div>
-              <div
-                style={{
-                  height: '25%',
-                  width: '100%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center'
-                }}
-              >
                 <Button
                   content="ログアウト"
                   size="large"
@@ -142,7 +130,7 @@ function Home() {
                     lineHeight: 2,
                     margin: 16,
                     color: '#fff',
-                    background: '#d675af'
+                    background: '#d675af',
                   }}
                 />
               </div>

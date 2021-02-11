@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
@@ -8,48 +9,86 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
-import { addMenuToFirebase } from '../../firebase/api';
+import { addMenuToFirebase, updateMenuToFirebase } from '../../firebase/api';
 
-export default function FormDialog({ open, handleCloseDialog }) {
+const useStyles = makeStyles({
+  rootPaper: {
+    width: 500,
+  },
+});
+
+export default function FormDialog({
+  open,
+  onClose,
+  title,
+  content,
+  label,
+  nextButton,
+  cancleButton,
+  defaultValue = '',
+  defaultContent = '',
+  type,
+  editedKey,
+  ...props
+}) {
   const [menuName, setMenuName] = useState('');
+  const [contentName, setContentName] = useState('');
 
-  const handleInput = e => {
+  const classes = useStyles();
+
+  const inputProps = { error: false };
+  const handleInput = (e) => {
     setMenuName(e.target.value);
   };
+  const handleInput2 = (e) => {
+    setContentName(e.target.value);
+  };
+  if (open === true && menuName === '') {
+    // inputProps = { error: true };
+  }
+  const handleUpdateMenu = () => {
+    if (type === 'edit') {
+      updateMenuToFirebase({ name: menuName, content: contentName, key: editedKey });
+    } else {
+      addMenuToFirebase({ name: menuName, content: contentName });
+    }
 
-  const handleAddMenu = () => {
-    addMenuToFirebase(menuName);
-    handleCloseDialog();
+    onClose();
   };
 
   return (
     <div>
-      <Dialog
-        open={open}
-        onClose={handleCloseDialog}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">食事を追加</DialogTitle>
+      <Dialog classes={{ paper: classes.rootPaper }} open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+        <DialogTitle id="form-dialog-title">{title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            ここで自分の食べたいものを追加して、一週間の食事リストを作りましょう！
-          </DialogContentText>
+          <DialogContentText>{content}</DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="食事　例：オムライス"
-            type="email"
+            label={label}
             fullWidth
             onChange={handleInput}
+            defaultValue={defaultValue}
+            inputProps={inputProps}
+          />
+          <TextField
+            id="outlined-multiline-static"
+            label="備考"
+            multiline
+            fullWidth
+            rows={4}
+            onChange={handleInput2}
+            defaultValue={defaultContent}
+            variant="outlined"
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCloseDialog} color="primary">
-            やめる
+          <Button onClick={onClose} color="primary">
+            {cancleButton}
           </Button>
-          <Button onClick={handleAddMenu} color="primary">
-            追加する
+          <Button onClick={handleUpdateMenu} color="primary">
+            {nextButton}
           </Button>
         </DialogActions>
       </Dialog>

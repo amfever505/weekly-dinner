@@ -24,3 +24,4 @@ export const DAYS_ICON = {
   6: sat,
   7: sun
 };
+export const innerH = window.innerHeight;

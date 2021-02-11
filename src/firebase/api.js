@@ -16,33 +16,40 @@ export const getUid = () => auth.currentUser.uid;
 
 export const menuRef = database.ref('menu');
 
-export const addMenuToFirebase = name => {
+export const addMenuToFirebase = ({ name, content }) => {
   return menuRef.child(getUid()).push({
     name,
-    content: 'todo'
+    content,
   });
 };
+
+export const updateMenuToFirebase = ({ name, content, key }) => {
+  const editedData = {
+    name,
+    content,
+  };
+
+  return menuRef.child(getUid()).child(key).update(editedData);
+};
+
 export const getMenuList = () => {
   return list(menuRef.child(getUid())).pipe(
-    map(changes =>
-      changes.map(c => {
+    map((changes) =>
+      changes.map((c) => {
         return { key: c.snapshot.key, ...c.snapshot.val() };
       })
     )
   );
 };
 
-export const removeMenuFromFirebase = key => {
-  menuRef
-    .child(getUid())
-    .child(key)
-    .remove();
+export const removeMenuFromFirebase = (key) => {
+  menuRef.child(getUid()).child(key).remove();
 };
 
 export const login = () => {
   const provider = new firebase.auth.GoogleAuthProvider();
   provider.setCustomParameters({
-    prompt: 'select_account'
+    prompt: 'select_account',
   });
   auth.signInWithRedirect(provider);
 };
@@ -57,6 +64,6 @@ export const logout = () =>
     .then(() => {
       console.log('logout success!');
     })
-    .catch(error => {
+    .catch((error) => {
       console.log(error);
     });
