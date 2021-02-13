@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 
 import Button from '@material-ui/core/Button';
@@ -33,27 +33,32 @@ export default function FormDialog({
 }) {
   const [menuName, setMenuName] = useState('');
   const [contentName, setContentName] = useState('');
-
+  const [changeNameListener, setChangeNameListener] = useState(false);
+  const [changeContentListener, setChangeContentListener] = useState(false);
   const classes = useStyles();
 
-  const inputProps = { error: false };
+  useEffect(() => {
+    setMenuName(defaultValue);
+    setContentName(defaultContent);
+  }, [defaultValue, defaultContent]);
+
   const handleInput = (e) => {
     setMenuName(e.target.value);
   };
+
   const handleInput2 = (e) => {
     setContentName(e.target.value);
   };
-  if (open === true && menuName === '') {
-    // inputProps = { error: true };
-  }
+
   const handleUpdateMenu = () => {
     if (type === 'edit') {
       updateMenuToFirebase({ name: menuName, content: contentName, key: editedKey });
     } else {
       addMenuToFirebase({ name: menuName, content: contentName });
     }
-
     onClose();
+    setMenuName('');
+    setContentName('');
   };
 
   return (
@@ -70,7 +75,8 @@ export default function FormDialog({
             fullWidth
             onChange={handleInput}
             defaultValue={defaultValue}
-            inputProps={inputProps}
+            error={menuName.length === 0}
+            required
           />
           <TextField
             id="outlined-multiline-static"
@@ -87,7 +93,7 @@ export default function FormDialog({
           <Button onClick={onClose} color="primary">
             {cancleButton}
           </Button>
-          <Button onClick={handleUpdateMenu} color="primary">
+          <Button onClick={handleUpdateMenu} disabled={menuName.length === 0} color="primary">
             {nextButton}
           </Button>
         </DialogActions>

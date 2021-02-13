@@ -28,7 +28,7 @@ export const updateMenuToFirebase = ({ name, content, key }) => {
     name,
     content,
   };
-
+  console.log(editedData);
   return menuRef.child(getUid()).child(key).update(editedData);
 };
 

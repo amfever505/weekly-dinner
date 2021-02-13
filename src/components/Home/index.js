@@ -38,6 +38,11 @@ function Home() {
   const handleCloseDialog = () => setOpen(false);
 
   const randomMenu = () => {
+    console.log(
+      menuList.map((m) => m.key),
+      menuRef.child(getUid()).child(menuList.map((m) => m.key))
+    );
+
     const randomMenuName = menuList
       .map((m) => m.name)
       .sort(function (a, b) {
@@ -49,7 +54,7 @@ function Home() {
   return (
     <Grid container spacing={3} direction="column">
       <Grid item>
-        <Section height={innerH / 2}>
+        <Section minHeight={innerH / 2}>
           <Grid container>
             {[1, 2, 3, 4, 5, 6, 7].map((n) => (
               <Grid item style={{ width: '14.28%' }} wrap="nowrap">
