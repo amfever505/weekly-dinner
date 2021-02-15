@@ -72,12 +72,15 @@ export default function FormDialog({
             margin="dense"
             id="name"
             label={label}
+            multiline
             fullWidth
             onChange={handleInput}
             defaultValue={defaultValue}
+            variant="outlined"
             error={menuName.length === 0}
             required
           />
+          <></>
           <TextField
             id="outlined-multiline-static"
             label="備考"

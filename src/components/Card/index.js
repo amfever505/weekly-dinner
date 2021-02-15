@@ -60,9 +60,6 @@ export default function ImgMediaCard({ day, randomMenu, daysimg, ...props }) {
       <CardActionArea className={classes.rootCardContent}>
         {/* 設定className裡的樣式（用object的方式）寫固定高度 */}
         <CardContent className={classes.contentRoot}>
-          {/*<Typography gutterBottom variant="h5" component="h2">
-            {day}
-  </Typography>*/}
           {randomMenu ? (
             <Typography varant="h6" component="h3" style={{ color: '#484848' }}>
               {randomMenu.name}
