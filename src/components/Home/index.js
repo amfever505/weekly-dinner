@@ -16,7 +16,7 @@ import MenuList from '../MenuList';
 
 function Home() {
   //用useState來寫網頁原始值（什麼都沒有的狀態）再用setVar的方式改變內容
-  const [test, setTest] = useState('');
+  const [randomMenuList, setRandomMenuList] = useState([]);
   const [open, setOpen] = useState(false);
   const [menuList, setMenuList] = useState([]);
 
@@ -38,18 +38,12 @@ function Home() {
   const handleCloseDialog = () => setOpen(false);
 
   const randomMenu = () => {
-    console.log(
-      menuList.map((m) => m.key),
-      menuRef.child(getUid()).child(menuList.map((m) => m.key))
-    );
-
-    const randomMenuName = menuList
-      .map((m) => m.name)
-      .sort(function (a, b) {
-        return 0.5 - Math.random();
-      });
-    setTest(randomMenuName);
+    const randomMenuList = menuList.sort((a, b) => {
+      return 0.5 - Math.random();
+    });
+    setRandomMenuList([...randomMenuList]);
   };
+  console.log(randomMenuList);
 
   return (
     <Grid container spacing={3} direction="column">
@@ -58,7 +52,7 @@ function Home() {
           <Grid container>
             {[1, 2, 3, 4, 5, 6, 7].map((n) => (
               <Grid item style={{ width: '14.28%' }} wrap="nowrap">
-                <Card day={WEEK_DAYS[n]} content={test[n - 1]} daysimg={DAYS_ICON[n]} />
+                <Card day={WEEK_DAYS[n]} randomMenu={randomMenuList[n - 1]} daysimg={DAYS_ICON[n]} />
               </Grid>
             ))}
           </Grid>
@@ -67,7 +61,7 @@ function Home() {
 
       <Grid item>
         <Section height={innerH * 0.4} variant="outlined">
-          <Grid container style={{ maxHeight: innerH * 0.4, overflow: 'hidden' }}>
+          <Grid container style={{ height: innerH * 0.4, overflow: 'hidden' }}>
             <Grid xs={4}></Grid>
             <Grid item xs={5}>
               <MenuList menuList={menuList} />

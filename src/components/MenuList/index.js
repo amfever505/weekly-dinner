@@ -10,15 +10,29 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import { removeMenuFromFirebase } from '../../firebase/api';
-
+function Alert(props) {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%',
-    height: 'auto',
+    height: '100%',
     position: 'relative',
     backgroundColor: theme.palette.background.paper,
+  },
+  alert: {
+    backgroundColor: 'rgb(214, 117, 175)',
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%,-50%)',
+    width: '100%',
+    margin: 0,
+    boxSizing: 'border-box',
+    padding: '12px 20px 12px 20px',
   },
 }));
 
@@ -41,13 +55,17 @@ export default function MenuList(props) {
     <>
       <div className={classes.root}>
         {menuList.length === 0 ? (
-          <Progress
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-            }}
-          />
+          <>
+            {/* <Progress
+              style={{
+                left: '50%',
+                top: '50%',
+              }}
+            /> */}
+            <Alert severity="info" className={classes.alert}>
+              メニューリストは空です！！
+            </Alert>
+          </>
         ) : (
           <List
             subheader={
@@ -63,7 +81,7 @@ export default function MenuList(props) {
               </ListSubheader>
             }
             style={{
-              maxHeight: 360,
+              Height: 360,
               overflowY: 'auto',
             }}
           >

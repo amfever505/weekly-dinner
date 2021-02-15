@@ -25,13 +25,14 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ImgMediaCard({ day, content, daysimg, ...props }) {
+export default function ImgMediaCard({ day, randomMenu, daysimg, ...props }) {
   //設定day content 可以從外面傳資料進來
   const classes = useStyles();
   const [expanded, setExpanded] = useState(false);
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
+
   return (
     <Card className={classes.root}>
       <CardActionArea>
@@ -49,15 +50,15 @@ export default function ImgMediaCard({ day, content, daysimg, ...props }) {
           {/*<Typography gutterBottom variant="h5" component="h2">
             {day}
   </Typography>*/}
-          <Typography variant="h6" component="h3" style={{ color: '#484848' }}>
-            {content}
-          </Typography>
+          {randomMenu ? (
+            <Typography variant="h6" component="h3" style={{ color: '#484848' }}>
+              {randomMenu.name}
+            </Typography>
+          ) : null}
         </CardContent>
       </CardActionArea>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
-        <CardContent>
-          <Typography paragraph>Method:</Typography>
-        </CardContent>
+        <CardContent>{randomMenu ? <Typography paragraph>{randomMenu.content}</Typography> : null}</CardContent>
       </Collapse>
       <CardActions>
         {/* <Button size="small" style={{ color: '#6D98BA' }}>
