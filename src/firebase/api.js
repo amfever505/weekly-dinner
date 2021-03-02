@@ -16,16 +16,18 @@ export const getUid = () => auth.currentUser.uid;
 
 export const menuRef = database.ref('menu');
 
-export const addMenuToFirebase = ({ name, content }) => {
+export const addMenuToFirebase = ({ name, price, content }) => {
   return menuRef.child(getUid()).push({
     name,
+    price,
     content,
   });
 };
-
-export const updateMenuToFirebase = ({ name, content, key }) => {
+// 更新資料用function
+export const updateMenuToFirebase = ({ name, price, content, key }) => {
   const editedData = {
     name,
+    price,
     content,
   };
   console.log(editedData);
@@ -67,3 +69,23 @@ export const logout = () =>
     .catch((error) => {
       console.log(error);
     });
+// 讀取使用者資料
+export const showUserInfo = () => {
+  var user = firebase.auth().currentUser;
+  var UserInfo = { name: '', email: '', photoUrl: '', uid: '', emailVerified: '' };
+
+  if (user != null) {
+    UserInfo = {
+      name: user.displayName,
+      email: user.email,
+      photoUrl: user.photoURL,
+      emailVerified: user.emailVerified,
+      uid: user.uid,
+    };
+    // The user's ID, unique to the Firebase project. Do NOT use
+    // this value to authenticate with your backend server, if
+    // you have one. Use User.getToken() instead.
+  }
+
+  return UserInfo;
+};

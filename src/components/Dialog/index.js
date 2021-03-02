@@ -8,7 +8,6 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-
 import { addMenuToFirebase, updateMenuToFirebase } from '../../firebase/api';
 
 const useStyles = makeStyles({
@@ -26,6 +25,7 @@ export default function FormDialog({
   nextButton,
   cancleButton,
   defaultValue = '',
+  defaultPrice = 0,
   defaultContent = '',
   type,
   editedKey,
@@ -33,31 +33,36 @@ export default function FormDialog({
 }) {
   const [menuName, setMenuName] = useState('');
   const [contentName, setContentName] = useState('');
+  const [price, setPrice] = useState(0);
   const [changeNameListener, setChangeNameListener] = useState(false);
   const [changeContentListener, setChangeContentListener] = useState(false);
   const classes = useStyles();
 
   useEffect(() => {
     setMenuName(defaultValue);
+    setPrice(defaultPrice);
     setContentName(defaultContent);
-  }, [defaultValue, defaultContent]);
+  }, [defaultValue, defaultPrice, defaultContent]);
 
   const handleInput = (e) => {
     setMenuName(e.target.value);
   };
-
-  const handleInput2 = (e) => {
+  const handlePriceInput = (e) => {
+    setPrice(e.target.value);
+  };
+  const handleContentInput = (e) => {
     setContentName(e.target.value);
   };
 
   const handleUpdateMenu = () => {
     if (type === 'edit') {
-      updateMenuToFirebase({ name: menuName, content: contentName, key: editedKey });
+      updateMenuToFirebase({ name: menuName, price: price, content: contentName, key: editedKey });
     } else {
-      addMenuToFirebase({ name: menuName, content: contentName });
+      addMenuToFirebase({ name: menuName, price: price, content: contentName });
     }
     onClose();
     setMenuName('');
+    setPrice(0);
     setContentName('');
   };
 
@@ -80,14 +85,27 @@ export default function FormDialog({
             error={menuName.length === 0}
             required
           />
-          <></>
+          <br />
+          <TextField
+            margin="dense"
+            id="price"
+            label="おいくら？"
+            type="number"
+            multiline
+            fullWidth
+            onChange={handlePriceInput}
+            defaultValue={defaultPrice}
+            error={isNaN(price)}
+            variant="outlined"
+          />
+          <br />
           <TextField
             id="outlined-multiline-static"
-            label="備考"
+            label="食材、お店、備考など"
             multiline
             fullWidth
             rows={4}
-            onChange={handleInput2}
+            onChange={handleContentInput}
             defaultValue={defaultContent}
             variant="outlined"
           />

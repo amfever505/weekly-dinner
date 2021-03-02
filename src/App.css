@@ -1,7 +1,33 @@
 .App {
-  padding: 24px;
+  padding: 20px;
   box-sizing: border-box;
   height: 100vh;
-  overflow: hidden;
+  color: #484848;
   box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+}
+
+body::-webkit-scrollbar {
+  /* Chrome, Safari 対応 */
+  display: none;
+}
+@media (max-width: 600px) {
+  .App {
+    padding: 12px;
+  }
+  .MuiDialogContent-root {
+    padding: 8px 12px !important;
+  }
+}
+@media (max-width: 425px) {
+  .App {
+    padding: 8px;
+  }
+}
+@media (max-width: 375px) {
+  .App {
+    padding: 4px;
+  }
 }

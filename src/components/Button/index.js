@@ -9,7 +9,7 @@ const CustomizedButton = ({ content, ...props }) => (
       paddingRight: 36,
       paddingLeft: 36,
       lineHeight: 2,
-      margin: 16
+      margin: '16px auto',
     }}
     {...props}
   >

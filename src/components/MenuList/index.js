@@ -10,6 +10,7 @@ import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CreateIcon from '@material-ui/icons/Create';
+import ListIcon from '@material-ui/icons/List';
 import MuiAlert from '@material-ui/lab/Alert';
 
 import { removeMenuFromFirebase } from '../../firebase/api';
@@ -75,8 +76,11 @@ export default function MenuList(props) {
                 style={{
                   color: '#333333',
                   background: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
                 }}
               >
+                <ListIcon style={{ fontSize: 28, color: '#484848' }} />
                 メニューリスト
               </ListSubheader>
             }
@@ -109,6 +113,7 @@ export default function MenuList(props) {
         cancleButton="やめる"
         open={open}
         defaultValue={editedItem.name}
+        defaultPrice={editedItem.price}
         defaultContent={editedItem.content}
         onClose={handleCloseDialog}
         editedKey={editedItem.key}

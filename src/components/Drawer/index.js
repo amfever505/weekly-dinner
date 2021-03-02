@@ -6,25 +6,30 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
-import Typography from '@material-ui/core/Typography';
-import Divider from '@material-ui/core/Divider';
+
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import Typography from '@material-ui/core/Typography';
 
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import MailIcon from '@material-ui/icons/Mail';
+import LiveHelpIcon from '@material-ui/icons/LiveHelp';
 import { logout } from '../../firebase/api';
+import ProfilePhoto from '../Avator';
+import Slideshow from '../Slideshow';
+import WelcomeDialog from '../Popup';
 
 const drawerWidth = 240;
 
 const useStyles = makeStyles((theme) => ({
   root: {},
   appBar: {
-    width: 72,
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: theme.spacing(7) + 1,
+    },
+    maxWidth: 72,
     boxShadow: 'none',
     backgroundColor: '#d675af',
     zIndex: theme.zIndex.drawer + 1,
@@ -76,6 +81,9 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
     paddingLeft: 12,
     paddingRight: 24,
+    [theme.breakpoints.down('sm')]: {
+      paddingLeft: 8,
+    },
   },
   toolbar: {
     display: 'flex',
@@ -85,9 +93,13 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     ...theme.mixins.toolbar,
   },
-  content: {
-    flexGrow: 1,
-    padding: theme.spacing(3),
+
+  copyright: {
+    position: 'absolute',
+    fontSize: '0.6rem',
+    bottom: 0,
+    left: 0,
+    color: '#eee',
   },
 }));
 
@@ -95,6 +107,9 @@ export default function MiniDrawer() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
+  const [welcome, setWelcome] = useState(false);
+  const handleOpenWelcome = () => setWelcome(true);
+  const handleCloseWelcome = () => setWelcome(false);
 
   const handleDrawerOpen = () => {
     if (open) {
@@ -123,9 +138,6 @@ export default function MiniDrawer() {
           >
             <MenuIcon />
           </IconButton>
-          {/* <Typography variant="h6" noWrap>
-            Mini variant drawer
-          </Typography> */}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -142,24 +154,17 @@ export default function MiniDrawer() {
           }),
         }}
       >
-        <div className={classes.toolbar}>
-          {/* <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton> */}
-        </div>
-
+        <div className={classes.toolbar}></div>
+        <ProfilePhoto />
+        <List></List>
         <List>
-          {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-            <ListItem button key={text} className={classes.drawerListItem}>
-              <ListItemIcon className={classes.drawerListItem}>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          ))}
-        </List>
-
-        <List>
+          <ListItem button onClick={handleOpenWelcome} key={'ログアウト'} className={classes.drawerListItem}>
+            <ListItemIcon className={classes.drawerListItem}>
+              <LiveHelpIcon />
+            </ListItemIcon>
+            <ListItemText primary={'使い方'} />
+          </ListItem>
+          <ListItem></ListItem>
           <ListItem button onClick={logout} key={'ログアウト'} className={classes.drawerListItem}>
             <ListItemIcon className={classes.drawerListItem}>
               <ExitToAppIcon />
@@ -167,7 +172,16 @@ export default function MiniDrawer() {
             <ListItemText primary={'ログアウト'} />
           </ListItem>
         </List>
+        <div className={classes.copyright}>
+          <Typography variant="h8">©2021 Weekly menu!ーー何を食べる？</Typography>
+        </div>
       </Drawer>
+      <WelcomeDialog
+        open={welcome}
+        onClose={handleCloseWelcome}
+        popupTitle={'ようこそ、Weekly menu!ーー何を食べる？'}
+        popupContent={<Slideshow />}
+      ></WelcomeDialog>
     </div>
   );
 }
