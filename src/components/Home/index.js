@@ -99,7 +99,9 @@ function Home() {
         });
       } else {
         login();
-        window.alert('こちらはWeekly menu!まずはログインしてください！');
+        window.alert(
+          'こちらはWeekly menu!まずはログインしてください！（アカウント情報はFirebaseにより暗号化され、管理者にも分からないようにしており、ご安心してください♪( ´▽｀)'
+        );
       }
     });
   }, []);
@@ -110,7 +112,7 @@ function Home() {
   const randomMenu = () => {
     const clonedList = [...menuList];
     let randomList = [];
-    if (clonedList.length < daysValue) {
+    if (clonedList.length < Number(daysValue)) {
       //少於餐數，重複取出
       if (duplicated === 'on') {
         //清單少於餐數（7或14）時先隨機將餐數補滿
@@ -123,11 +125,6 @@ function Home() {
         randomList = clonedList.sort(function (a, b) {
           return 0.5 - Math.random();
         });
-
-        // for (let i = 0; i < Number(daysValue); i++) {
-        //   const item = clonedList[Math.floor(Math.random() * clonedList.length)];
-        //   randomList.push(item);
-        // }
       } else {
         // 少於餐數不重複
         for (let i = 0; i < Number(daysValue) - clonedList.length; i++) {
@@ -139,9 +136,13 @@ function Home() {
       }
     } else {
       //正常情況
-      randomList = clonedList.sort(function (a, b) {
-        return 0.5 - Math.random();
-      });
+      randomList = clonedList
+        .sort(function (a, b) {
+          return 0.5 - Math.random();
+        })
+        .slice(0, Number(daysValue));
+
+      console.log(randomList);
     }
     setRandomMenuList([...randomList]);
   };
