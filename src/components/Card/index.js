@@ -21,6 +21,7 @@ const useStyles = makeStyles({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-start',
+    borderRadius: 'unset',
   },
   rootCardContent: {
     width: '65%',

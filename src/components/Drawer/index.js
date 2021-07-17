@@ -6,16 +6,15 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import List from '@material-ui/core/List';
 import CssBaseline from '@material-ui/core/CssBaseline';
-
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Typography from '@material-ui/core/Typography';
-
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import LiveHelpIcon from '@material-ui/icons/LiveHelp';
+
 import { logout } from '../../firebase/api';
 import ProfilePhoto from '../Avator';
 import Slideshow from '../Slideshow';
@@ -78,7 +77,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   drawerListItem: {
-    color: '#fff',
+    color: '#fcf7ff',
     paddingLeft: 12,
     paddingRight: 24,
     [theme.breakpoints.down('sm')]: {
